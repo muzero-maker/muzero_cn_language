@@ -30,7 +30,7 @@ class MuZeroConfig:
 
         ### 自博弈
         self.num_workers = 1  # 给回放池提供数据的并发自博弈 工作进程/线程 数目
-        self.selfplay_on_gpu = True
+        self.selfplay_on_gpu = False
         self.max_moves = 121  # 如果游戏未在之前完成，则能移动的最大数量
         self.num_simulations = 300  # 自模拟的未来移动次数（MCTS对当前根结点展开模拟的次数）
         self.discount = 1  # 按时间顺序排列的奖励折扣
