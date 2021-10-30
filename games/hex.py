@@ -30,7 +30,7 @@ class MuZeroConfig:
 
         ### 自博弈
         self.num_workers = 1  # 给回放池提供数据的并发自博弈 工作进程/线程 数目
-        self.selfplay_on_gpu = False
+        self.selfplay_on_gpu = True
         self.max_moves = 121  # 如果游戏未在之前完成，则能移动的最大数量
         self.num_simulations = 300  # 自模拟的未来移动次数（MCTS对当前根结点展开模拟的次数）
         self.discount = 1  # 按时间顺序排列的奖励折扣
@@ -74,9 +74,9 @@ class MuZeroConfig:
         ### 训练
         self.results_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../results", os.path.basename(__file__)[:-3], datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S"))  # 存储 模型权重 和 Tensorboard 日志的路径
         self.save_model = True  # 将 results_path 中的检查点另存为 model.checkpoint
-        self.training_steps = 100  # 训练步总数（即根据批次更新权重）
-        self.batch_size = 32  # 在每个训练步中 训练的游戏片段 的数量
-        self.checkpoint_interval = 1  # 保存模型的训练步间隔
+        self.training_steps = 2000  # 训练步总数（即根据批次更新权重）
+        self.batch_size = 64  # 在每个训练步中 训练的游戏片段 的数量
+        self.checkpoint_interval = 5  # 保存模型的训练步间隔
         self.value_loss_weight = 1  # 缩放价值损失以避免价值函数的过拟合，论文建议为0.25（见论文附录 重新分析）
         self.train_on_gpu = torch.cuda.is_available()  # 在GPU上训练（如果可用）
 
@@ -107,7 +107,7 @@ class MuZeroConfig:
         ### 调整 自博弈/训练 比率，以避免 过拟合/欠拟合
         self.self_play_delay = 0  # 每次玩一盘游戏后等待的秒数
         self.training_delay = 0  # 每个训练步后等待的秒数
-        self.ratio = 1  # 每个 自博弈步 的 期望训练步 比率。与同步版本等效，训练可能需要更长的时间。设置为“None”以禁用它
+        self.ratio = 1 / 50  # 每个 自博弈步 的 期望训练步 比率。与同步版本等效，训练可能需要更长的时间。设置为“None”以禁用它
 
 
     def visit_softmax_temperature_fn(self, trained_steps):
