@@ -611,6 +611,7 @@ if __name__ == "__main__":
         choice = int(choice)
         game_name = games[choice]
         muzero = MuZero(game_name)
+        print(f"muzero:{muzero}")
 
         while True:
             # 配置运行选项
